@@ -348,6 +348,76 @@
       font-size: 13px;
       font-weight: 700;
     }
+    .contact {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 72px;
+      width: min(1180px, calc(100% - 80px));
+      margin: 0 auto;
+      padding: 90px 0 110px;
+      border-top: 1px solid var(--line);
+      scroll-margin-top: 100px;
+    }
+    .contact-copy .eyebrow { margin-bottom: 17px; }
+    .contact-copy h2 {
+      margin: 0 0 18px;
+      font: 500 clamp(36px, 4.5vw, 54px)/1.06 "Space Grotesk", sans-serif;
+      letter-spacing: -.055em;
+    }
+    .contact-copy h2 span { color: var(--accent); }
+    .contact-copy > p {
+      max-width: 390px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 16px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: linear-gradient(145deg, rgb(255 255 255 / 4%), rgb(255 255 255 / 1%));
+    }
+    .form-field { display: grid; gap: 8px; }
+    .form-field-full { grid-column: 1 / -1; }
+    .form-field label { color: #dedee6; font-size: 12px; font-weight: 600; }
+    .form-field input,
+    .form-field textarea {
+      width: 100%;
+      border: 1px solid rgb(255 255 255 / 16%);
+      border-radius: 4px;
+      outline: none;
+      background: rgb(8 11 20 / 58%);
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .form-field input { min-height: 45px; padding: 0 13px; }
+    .form-field textarea { min-height: 130px; padding: 12px 13px; resize: vertical; }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: #777b8a; }
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgb(168 139 255 / 13%);
+    }
+    .contact-submit {
+      justify-self: start;
+      cursor: pointer;
+    }
+    .form-note,
+    .form-status {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .form-status { color: #f2c98b; }
 
     @media (min-width: 1500px) {
       .hero { min-height: 900px; }
@@ -396,11 +466,21 @@
       .service-card { min-height: 245px; padding: 19px 16px; }
       .service-icon { margin-bottom: 23px; }
       .services-cta { align-items: flex-start; flex-direction: column; padding: 22px; }
+      .contact {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        width: calc(100% - 42px);
+        padding: 73px 0 82px;
+        scroll-margin-top: 84px;
+      }
+      .contact-form { padding: 21px; }
     }
     @media (max-width: 420px) {
       .service-grid { grid-template-columns: 1fr; }
       .service-card { min-height: auto; }
       .service-icon { margin-bottom: 18px; }
+      .contact-form { grid-template-columns: 1fr; gap: 15px; }
+      .form-field-full, .form-note, .form-status { grid-column: 1; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
@@ -420,7 +500,8 @@
       <a href="#inicio">Inicio</a>
       <a href="#servicios">Servicios IA</a>
       <a href="#vision">Nuestra visión</a>
-      <a class="header-cta" href="#servicios">Explorar servicios <span aria-hidden="true">↗</span></a>
+      <a href="#contacto">Contacto</a>
+      <a class="header-cta" href="#contacto">Hablemos <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
   <main>
@@ -511,8 +592,37 @@
       </div>
       <div class="services-cta">
         <p>¿Tienes un reto que podría resolver la inteligencia artificial?</p>
-        <a href="#vision">Hablemos de posibilidades <span aria-hidden="true">↗</span></a>
+        <a href="#contacto">Hablemos de posibilidades <span aria-hidden="true">↗</span></a>
       </div>
+    </section>
+
+    <section class="contact" id="contacto" aria-labelledby="contact-title">
+      <div class="contact-copy">
+        <p class="eyebrow">Conversemos</p>
+        <h2 id="contact-title">Tu próxima idea<br><span>empieza aquí.</span></h2>
+        <p>Cuéntanos sobre tu proyecto o desafío. Nuestro equipo puede ayudarte a explorar soluciones de inteligencia artificial y tecnología.</p>
+      </div>
+      <form class="contact-form" id="contact-form">
+        <div class="form-field">
+          <label for="contact-name">Nombre</label>
+          <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Tu nombre" required maxlength="100">
+        </div>
+        <div class="form-field">
+          <label for="contact-email">Correo electrónico</label>
+          <input id="contact-email" name="email" type="email" autocomplete="email" placeholder="tu@empresa.com" required maxlength="254">
+        </div>
+        <div class="form-field form-field-full">
+          <label for="contact-subject">¿En qué podemos ayudarte?</label>
+          <input id="contact-subject" name="subject" type="text" placeholder="Por ejemplo: automatización con IA" required maxlength="150">
+        </div>
+        <div class="form-field form-field-full">
+          <label for="contact-message">Cuéntanos un poco más</label>
+          <textarea id="contact-message" name="message" placeholder="Describe brevemente tu idea o proyecto..." required maxlength="2000"></textarea>
+        </div>
+        <button class="primary-link contact-submit" type="submit">Enviar mensaje <span aria-hidden="true">↗</span></button>
+        <p class="form-note">Formulario de demostración: el envío aún no está conectado a un servicio de correo.</p>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
     </section>
   </main>
 
@@ -616,6 +726,12 @@
     });
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") closeMenu();
+    });
+
+    document.querySelector("#contact-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      document.querySelector("#form-status").textContent =
+        "El formulario no pudo enviar el mensaje porque todavía no está conectado a un servicio de correo.";
     });
 
     hero.addEventListener("pointermove", (event) => {
