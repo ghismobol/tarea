@@ -77,8 +77,8 @@
     }
 
     .site-header {
-      position: absolute;
-      z-index: 2;
+      position: fixed;
+      z-index: 10;
       top: 0;
       left: 0;
       right: 0;
@@ -87,6 +87,17 @@
       justify-content: space-between;
       height: 94px;
       border-bottom: 1px solid var(--line);
+      background: rgb(8 11 20 / 32%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: height .25s ease, background .25s ease, border-color .25s ease, backdrop-filter .25s ease;
+    }
+    .site-header.is-scrolled {
+      height: 76px;
+      border-color: rgb(255 255 255 / 10%);
+      background: rgb(8 11 20 / 76%);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
     }
 
     .brand {
@@ -397,27 +408,26 @@
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Nexus, inicio">
+      <span class="brand-mark" aria-hidden="true">✳</span>
+      NEXUS
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-navigation">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <nav class="nav-links" id="main-navigation" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios IA</a>
+      <a href="#vision">Nuestra visión</a>
+      <a class="header-cta" href="#servicios">Explorar servicios <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
   <main>
     <section class="hero" id="inicio" aria-label="Presentación de Nexus">
       <div class="hero-image" id="hero-image" aria-hidden="true"></div>
       <div class="hero-shade" aria-hidden="true"></div>
       <div class="hero-glow" aria-hidden="true"></div>
-
-      <header class="site-header">
-        <a class="brand" href="#inicio" aria-label="Nexus, inicio">
-          <span class="brand-mark" aria-hidden="true">✳</span>
-          NEXUS
-        </a>
-        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-navigation">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </button>
-        <nav class="nav-links" id="main-navigation" aria-label="Navegación principal">
-          <a href="#inicio">Inicio</a>
-          <a href="#servicios">Servicios IA</a>
-          <a href="#vision">Nuestra visión</a>
-          <a class="header-cta" href="#servicios">Explorar servicios <span aria-hidden="true">↗</span></a>
-        </nav>
-      </header>
 
       <div class="hero-content">
         <div class="copy" aria-live="polite" aria-atomic="true">
@@ -580,6 +590,14 @@
 
     const menuToggle = document.querySelector("#menu-toggle");
     const navigation = document.querySelector("#main-navigation");
+    const siteHeader = document.querySelector(".site-header");
+
+    function updateHeaderOnScroll() {
+      siteHeader.classList.toggle("is-scrolled", window.scrollY > 24);
+    }
+
+    window.addEventListener("scroll", updateHeaderOnScroll, { passive: true });
+    updateHeaderOnScroll();
 
     function closeMenu() {
       navigation.classList.remove("is-open");
