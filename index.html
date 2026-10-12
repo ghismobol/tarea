@@ -127,6 +127,38 @@
       transition: color .2s ease;
     }
     .nav-links a:hover { color: var(--accent); }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #d6d7df;
+      font-size: 13px;
+      cursor: pointer;
+      transition: color .2s ease;
+    }
+    .nav-dropdown-toggle:hover,
+    .nav-dropdown-toggle[aria-expanded="true"] { color: var(--accent); }
+    .nav-dropdown-toggle span { font-size: 10px; }
+    .nav-submenu {
+      position: absolute;
+      top: calc(100% + 17px);
+      left: -16px;
+      display: none;
+      min-width: 175px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: #10131e;
+      box-shadow: 0 12px 30px rgb(0 0 0 / 30%);
+    }
+    .nav-dropdown:hover .nav-submenu,
+    .nav-dropdown:focus-within .nav-submenu,
+    .nav-dropdown.is-open .nav-submenu { display: grid; }
+    .nav-submenu a { display: block; padding: 10px 9px; }
     .header-cta {
       padding: 11px 17px;
       border: 1px solid rgb(255 255 255 / 35%);
@@ -730,6 +762,22 @@
         display: block;
         padding: 13px 4px;
       }
+      .nav-dropdown { width: 100%; }
+      .nav-dropdown-toggle { justify-content: space-between; width: 100%; padding: 13px 4px; }
+      .nav-submenu {
+        position: static;
+        min-width: 0;
+        padding: 0 0 5px 13px;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+      .nav-dropdown:hover .nav-submenu { display: none; }
+      .nav-dropdown:hover.is-open .nav-submenu,
+      .nav-dropdown:focus-within.is-open .nav-submenu,
+      .nav-dropdown.is-open .nav-submenu { display: grid; }
+      .nav-submenu a { padding: 11px 4px; }
       .header-cta { margin-top: 8px; padding: 12px; text-align: center; }
       .hero-image { background-position: 61% center; }
       .hero-shade {
@@ -801,10 +849,17 @@
     </button>
     <nav class="nav-links" id="main-navigation" aria-label="Navegación principal">
       <a href="#inicio">Inicio</a>
-      <a href="#mision">Misión</a>
+      <div class="nav-dropdown" id="about-dropdown">
+        <button class="nav-dropdown-toggle" id="about-dropdown-toggle" type="button" aria-expanded="false" aria-controls="about-submenu">
+          Quiénes somos <span aria-hidden="true">⌄</span>
+        </button>
+        <div class="nav-submenu" id="about-submenu">
+          <a href="#mision">Misión</a>
+          <a href="#vision">Nuestra visión</a>
+        </div>
+      </div>
       <a href="#servicios">Servicios IA</a>
       <a href="proyectos.html">Proyectos</a>
-      <a href="#vision">Nuestra visión</a>
       <a href="#contacto">Contacto</a>
       <a href="#ubicacion">Ubicación</a>
       <a class="header-cta" href="#contacto">Hablemos <span aria-hidden="true">↗</span></a>
@@ -1091,6 +1146,8 @@
 
     const menuToggle = document.querySelector("#menu-toggle");
     const navigation = document.querySelector("#main-navigation");
+    const aboutDropdown = document.querySelector("#about-dropdown");
+    const aboutDropdownToggle = document.querySelector("#about-dropdown-toggle");
     const siteHeader = document.querySelector(".site-header");
 
     function updateHeaderOnScroll() {
@@ -1104,8 +1161,15 @@
       navigation.classList.remove("is-open");
       menuToggle.setAttribute("aria-expanded", "false");
       menuToggle.setAttribute("aria-label", "Abrir menú");
+      aboutDropdown.classList.remove("is-open");
+      aboutDropdownToggle.setAttribute("aria-expanded", "false");
     }
 
+    aboutDropdownToggle.addEventListener("click", () => {
+      const isOpen = aboutDropdownToggle.getAttribute("aria-expanded") !== "true";
+      aboutDropdown.classList.toggle("is-open", isOpen);
+      aboutDropdownToggle.setAttribute("aria-expanded", String(isOpen));
+    });
     menuToggle.addEventListener("click", () => {
       const isOpen = menuToggle.getAttribute("aria-expanded") !== "true";
       menuToggle.setAttribute("aria-expanded", String(isOpen));
