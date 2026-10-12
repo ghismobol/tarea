@@ -445,6 +445,96 @@
       border: 0;
       filter: grayscale(1) invert(.9) contrast(.88);
     }
+    .site-footer {
+      border-top: 1px solid var(--line);
+      background: rgb(255 255 255 / 1.5%);
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1fr 240px 1fr;
+      align-items: center;
+      width: min(1180px, calc(100% - 80px));
+      min-height: 220px;
+      margin: 0 auto;
+    }
+    .footer-brand p,
+    .footer-copyright {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .footer-brand p { margin: 12px 0 0; }
+    .footer-copyright { justify-self: end; text-align: right; }
+    .social-orbit {
+      position: relative;
+      width: 240px;
+      height: 200px;
+      justify-self: center;
+    }
+    .social-title {
+      position: absolute;
+      top: 2px;
+      right: 0;
+      left: 0;
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .social-toggle,
+    .social-link {
+      position: absolute;
+      top: 59%;
+      left: 50%;
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border: 1px solid rgb(255 255 255 / 20%);
+      border-radius: 50%;
+      background: #111522;
+      color: var(--text);
+      transform: translate(-50%, -50%);
+    }
+    .social-toggle {
+      z-index: 2;
+      width: 50px;
+      height: 50px;
+      border-color: rgb(168 139 255 / 58%);
+      background: #171329;
+      color: var(--accent);
+      cursor: pointer;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .social-toggle:hover { background: #211a38; transform: translate(-50%, -50%) scale(1.06); }
+    .social-toggle svg { width: 22px; height: 22px; }
+    .social-link {
+      z-index: 1;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .22s ease, transform .3s cubic-bezier(.2,.8,.2,1), background .2s ease, border-color .2s ease, visibility 0s linear .3s;
+    }
+    .social-link svg { width: 20px; height: 20px; }
+    .social-facebook { --orbit-x: -67px; --orbit-y: -39px; }
+    .social-youtube { --orbit-x: 67px; --orbit-y: -39px; }
+    .social-instagram { --orbit-x: -67px; --orbit-y: 39px; }
+    .social-linkedin { --orbit-x: 67px; --orbit-y: 39px; }
+    .social-orbit:hover .social-link,
+    .social-orbit:focus-within .social-link,
+    .social-orbit.is-open .social-link {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translate(calc(-50% + var(--orbit-x)), calc(-50% + var(--orbit-y)));
+      transition-delay: 0s;
+    }
+    .social-facebook:hover { border-color: #1877f2; background: #1877f2; }
+    .social-youtube:hover { border-color: #ff0033; background: #ff0033; }
+    .social-instagram:hover { border-color: #e4405f; background: #b52c82; }
+    .social-linkedin:hover { border-color: #0a66c2; background: #0a66c2; }
 
     @media (min-width: 1500px) {
       .hero { min-height: 900px; }
@@ -503,6 +593,15 @@
       .contact-form { padding: 21px; }
       .location-map { scroll-margin-top: 84px; }
       .location-map iframe { height: 300px; }
+      .footer-inner {
+        grid-template-columns: 1fr 220px;
+        gap: 10px;
+        width: calc(100% - 42px);
+        padding: 28px 0;
+      }
+      .social-orbit { grid-column: 1 / -1; grid-row: 1; }
+      .footer-brand { grid-column: 1; grid-row: 2; }
+      .footer-copyright { grid-column: 2; grid-row: 2; }
     }
     @media (max-width: 420px) {
       .service-grid { grid-template-columns: 1fr; }
@@ -512,6 +611,10 @@
       .form-field-full, .form-note, .form-status { grid-column: 1; }
       .location-map-heading { align-items: flex-start; flex-direction: column; gap: 9px; padding: 18px; }
       .location-map iframe { height: 260px; }
+      .footer-inner { grid-template-columns: 1fr; justify-items: center; gap: 12px; }
+      .social-orbit { grid-column: 1; }
+      .footer-brand { grid-column: 1; grid-row: 2; text-align: center; }
+      .footer-copyright { grid-column: 1; grid-row: 3; justify-self: center; text-align: center; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
@@ -670,6 +773,38 @@
       </div>
     </section>
   </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="#inicio" aria-label="Nexus, volver al inicio">
+          <span class="brand-mark" aria-hidden="true">✳</span>
+          NEXUS
+        </a>
+        <p>Tecnología para imaginar<br>nuevas posibilidades.</p>
+      </div>
+      <div class="social-orbit" id="social-orbit">
+        <p class="social-title">Conecta con nosotros</p>
+        <div id="social-links" role="group" aria-label="Redes sociales">
+          <a class="social-link social-facebook" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.4 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.5 1.6-1.5h1.7V3.2c-.3 0-1.3-.2-2.5-.2-2.5 0-4.2 1.5-4.2 4.3v2.4H7.2v3.2H10V21h3.4Z"/></svg>
+          </a>
+          <a class="social-link social-youtube" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg>
+          </a>
+          <a class="social-link social-instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.8" r="1.2" fill="currentColor"/></svg>
+          </a>
+          <a class="social-link social-linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.2 3.5a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4ZM3.3 9.5h3.8v11H3.3v-11Zm6.2 0h3.6V11h.1c.5-.9 1.7-1.9 3.5-1.9 3.8 0 4.5 2.5 4.5 5.7v5.7h-3.8v-5.1c0-1.2 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8v5.2H9.5v-11Z"/></svg>
+          </a>
+        </div>
+        <button class="social-toggle" id="social-toggle" type="button" aria-label="Mostrar redes sociales" aria-expanded="false" aria-controls="social-links">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 8a3 3 0 1 0-2.8-4M8 12l8-4M8 12l8 4m-8-4a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm13 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <p class="footer-copyright">© 2025 NEXUS<br>Tecnología que inspira.</p>
+    </div>
+  </footer>
 
   <script>
     const slides = [
@@ -771,6 +906,37 @@
     });
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") closeMenu();
+    });
+
+    const socialOrbit = document.querySelector("#social-orbit");
+    const socialToggle = document.querySelector("#social-toggle");
+
+    socialToggle.addEventListener("click", () => {
+      const isOpen = socialToggle.getAttribute("aria-expanded") !== "true";
+      socialToggle.setAttribute("aria-expanded", String(isOpen));
+      socialToggle.setAttribute("aria-label", isOpen ? "Ocultar redes sociales" : "Mostrar redes sociales");
+      socialOrbit.classList.toggle("is-open", isOpen);
+    });
+    socialOrbit.addEventListener("click", (event) => {
+      if (event.target.closest(".social-link")) {
+        socialOrbit.classList.remove("is-open");
+        socialToggle.setAttribute("aria-expanded", "false");
+        socialToggle.setAttribute("aria-label", "Mostrar redes sociales");
+      }
+    });
+    document.addEventListener("click", (event) => {
+      if (!socialOrbit.contains(event.target)) {
+        socialOrbit.classList.remove("is-open");
+        socialToggle.setAttribute("aria-expanded", "false");
+        socialToggle.setAttribute("aria-label", "Mostrar redes sociales");
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        socialOrbit.classList.remove("is-open");
+        socialToggle.setAttribute("aria-expanded", "false");
+        socialToggle.setAttribute("aria-label", "Mostrar redes sociales");
+      }
     });
 
     document.querySelector("#contact-form").addEventListener("submit", (event) => {
